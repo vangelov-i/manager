@@ -1,18 +1,21 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { employeeCreate, employeeResetForm } from '../actions/EmployeeActions';
+import { employeeUpdate, employeeSave } from '../actions/EmployeeActions';
 import { Card, CardSection, Button } from './common';
 import EmployeeForm from './EmployeeForm';
 
-class EmployeeCreate extends Component {
+class EmployeeEdit extends Component {
   componentWillMount() {
-    this.props.employeeResetForm();
+    _.each(this.props.employee, (value, prop) => {
+      this.props.employeeUpdate({ prop, value });
+    });
   }
-  
+
   onButtonPress() {
     const { name, phone, shift } = this.props;
 
-    this.props.employeeCreate({ name, phone, shift });
+    this.props.employeeSave({ name, phone, shift, uid: this.props.employee.uid });
   }
 
   render() {
@@ -21,7 +24,7 @@ class EmployeeCreate extends Component {
         <EmployeeForm {...this.props} />
         <CardSection>
           <Button onPress={() => this.onButtonPress()}>
-            Create
+            Save Changes
           </Button>
         </CardSection>
       </Card>
@@ -29,16 +32,15 @@ class EmployeeCreate extends Component {
   }
 }
 
-
 const mapStateToProps = (state) => {
   const { name, phone, shift } = state.employeeForm;
-  
+
   return { name, phone, shift: shift || 'Monday' };
 };
 
 const actions = {
-  employeeCreate,
-  employeeResetForm
+  employeeUpdate,
+  employeeSave
 };
 
-export default connect(mapStateToProps, actions)(EmployeeCreate);
+export default connect(mapStateToProps, actions)(EmployeeEdit);
