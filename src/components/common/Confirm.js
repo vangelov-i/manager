@@ -7,13 +7,12 @@ const Confirm = ({ children, visible, onAccept, onDecline }) => {
   const { containerStyle, textStyle, cardSectionStyle } = styles;
   return (
     <Modal
-      style={containerStyle}
       visible={visible}
       transparent
       animationType="slide"
       onRequestClose={() => {}}
     >
-      <View>
+      <View style={containerStyle}>
         <CardSection style={cardSectionStyle}>
           <Text style={textStyle}>{children}</Text>
         </CardSection>
@@ -37,7 +36,7 @@ const styles = {
     lineHeight: 40    
   },
   containerStyle: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
     position: 'relative',
     flex: 1,
     justifyContent: 'center'
